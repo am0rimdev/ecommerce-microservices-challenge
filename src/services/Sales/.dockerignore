@@ -1,0 +1,54 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Visual Studio files
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.vspscc
+*.vssscc
+.vsmdi
+*.dbmdl
+*.jfm
+*.pfx
+*.publishsettings
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Temp files
+*.log
+*.tmp
+*.swp
+*~
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Environment files
+.env
+.env.local
+*.Development.json
+
+# Documentation
+[Dd]ocs/
+
+# Docker
+.docker/
+docker-compose.override.yml

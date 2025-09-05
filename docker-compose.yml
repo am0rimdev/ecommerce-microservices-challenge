@@ -1,0 +1,56 @@
+services:
+  stock-service:
+    build: ./src/services/Stock
+    ports:
+      - "5001:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__PostgresConnection=Host=stock-db;Database=${STOCK_DB_NAME};Username=${STOCK_DB_USER};Password=${STOCK_DB_PASSWORD}
+    depends_on:
+      - stock-db
+
+  sales-service:
+    build: ./src/services/Sales
+    ports:
+      - "5002:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__PostgresConnection=Host=sales-db;Database=${SALES_DB_NAME};Username=${SALES_DB_USER};Password=${SALES_DB_PASSWORD}
+    depends_on:
+      - sales-db
+
+  stock-db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${STOCK_DB_USER}
+      POSTGRES_PASSWORD: ${STOCK_DB_PASSWORD}
+      POSTGRES_DB: ${STOCK_DB_NAME}
+    ports:
+      - "${STOCK_DB_PORT}:5432"
+    volumes:
+      - stock-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${STOCK_DB_USER} -d ${STOCK_DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  sales-db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${SALES_DB_USER}
+      POSTGRES_PASSWORD: ${SALES_DB_PASSWORD}
+      POSTGRES_DB: ${SALES_DB_NAME}
+    ports:
+      - "${SALES_DB_PORT}:5432"
+    volumes:
+      - sales-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${SALES_DB_USER} -d ${SALES_DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  stock-data:
+  sales-data:
